@@ -21,7 +21,8 @@ public class Cell {
     }
 
     public boolean isText(){
-        return false;
+        return (!isNumber() && !isForm());
+
     }
 
     public boolean isForm(){
