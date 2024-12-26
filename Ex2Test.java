@@ -96,6 +96,35 @@ public class Ex2Test {
 
     }
 
+    @Test
+    void xCell(){
+        Spreadsheet s = new Spreadsheet(3, 4);
+        String t= "A12";
+        int a = s.xCell(t);
+        assertEquals(a, 0);
+
+        t= "j2";
+        a = s.xCell(t);
+        assertEquals(a, 9);
+
+        t= "aa2";
+        a = s.xCell(t);
+        assertEquals(a, -1);
+
+        t= "a2a";
+        a = s.xCell(t);
+        assertEquals(a, -1);
+    }
+
+    @Test
+    void yCell(){
+        Spreadsheet s = new Spreadsheet(3, 4);
+        String t= "A12";
+        int a = s.yCell(t);
+        assertEquals(a, 12);
+
+
+    }
 
 }
 

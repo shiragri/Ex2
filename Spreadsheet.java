@@ -26,21 +26,21 @@ public class Spreadsheet {
 
         char ch = lower.charAt(0);
         if (ch >= 'a' && ch <= 'z') {
-            return ch - 141;
+            return ch - 97;
         } else return -1;
 
 
     }
 
     public int yCell(String x) {
-
+    int a;
         try {
-            int a = Integer.parseInt(x.substring(1));
+            a = Integer.parseInt(x.substring(1));
         } catch (NumberFormatException e) {
             return -1;
         }
 
-        return Integer.parseInt(x.substring(1, x.length() - 1));
+        return a;
     }
 
 
