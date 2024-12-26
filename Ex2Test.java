@@ -80,5 +80,22 @@ public class Ex2Test {
 
     }
 
+    @Test
+    void width() {
+        Spreadsheet s = new Spreadsheet(3, 4);
+        int x = s.width();
+        assertEquals(x, 3);
+    }
+
+    @Test
+    void height()  {
+        Spreadsheet s = new Spreadsheet(3, 4);
+        int y = s.height();
+        assertEquals(y, 4);
+
+
+    }
+
+
 }
 
