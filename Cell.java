@@ -42,10 +42,18 @@ public class Cell {
     }
 
     public double computeForm(String form){
-        int opIndex = indOfMainOp(form);
-        String leftSide = form.substring(0, opIndex);
-        String rightSide = form.substring(opIndex+1);
-        char op = form.charAt(opIndex);
+        String form1 = "";
+        if (form.charAt(0)== '=')
+            form1 = form.substring(1);
+        else
+            form1 = form;
+        if (form1.charAt(0) == '(' && form1.charAt(form1.length()-1) == ')')
+            form1 = form1.substring(1, form1.length()-1);
+
+        int opIndex = indOfMainOp(form1);
+        String leftSide = form1.substring(0, opIndex);
+        String rightSide = form1.substring(opIndex+1);
+        char op = form1.charAt(opIndex);
 
         double leftSideVal;
         if (isNumber(leftSide))
@@ -75,10 +83,31 @@ public class Cell {
 
        // return null;
     }
-    private int indOfMainOp(String form){
-        for (int i = form.length(); i > 0; i--) {
-            if (form.charAt(i-1) == '+' || form.charAt(i-1) == '-');
+
+    private  int indOfMainOp(String form){
+        int opIndex = -1;
+        boolean isInParenthesis = false;
+        int parenthesisCounter = 0;
+        for (int i = form.length()-1; i > 0; i--) {
+            if (form.charAt(i) == ')') {
+                isInParenthesis = true;
+                parenthesisCounter++;
+            }
+            else if (form.charAt(i) == '(') {
+                parenthesisCounter--;
+                if (parenthesisCounter == 0)
+                    isInParenthesis = false;
+
+            }
+
+
+            if (!isInParenthesis) {
+                if (form.charAt(i) == '+' || form.charAt(i) == '-')
+                    return i;
+                else if ((form.charAt(i) == '*' || form.charAt(i) == '/') && opIndex == -1)
+                    opIndex = i;
+            }
         }
-        return 4;
+        return opIndex;
     }
 }
