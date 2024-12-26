@@ -42,7 +42,7 @@ public class Ex2Test {
         String s = "=1+3";
         Cell c = new Cell("c");
         double a;
-      /*
+
          a = c.computeForm(s);
         assertEquals(a, 4);
 
@@ -57,7 +57,7 @@ public class Ex2Test {
         s = "=11+3/3-10";
         a= c.computeForm(s);
         assertEquals(a,2);
-*/
+
         s = "=(11+3/3)-10";
         a= c.computeForm(s);
         assertEquals(a,2);
