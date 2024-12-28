@@ -1,13 +1,17 @@
-public class Cell {
+package assignments.ex2;
+
+public class Cell1 {
     private int x;
     private int y;
     private int intVal;
     private String strVal;
     private String formVal;
     private String value;
+    private Spreadsheet excell;
 
-    public Cell(String str) {
+    public Cell1( String str) {
         this.value = str;
+      //  this.excell =ex;
 
     }
 
@@ -41,6 +45,13 @@ public class Cell {
         return value.charAt(0) == '0';
     }
 
+    private boolean isCell(String str) {
+        if(excell.xCell(str)==-1 || excell.yCell(str)==-1 ){
+            return false;
+        }
+        return true;
+    }
+
     public double computeForm(String form){
         String form1 = "";
         if (form.charAt(0)== '=')
@@ -58,6 +69,14 @@ public class Cell {
         double leftSideVal;
         if (isNumber(leftSide))
             leftSideVal = Double.parseDouble(leftSide);
+        /*else if (isCell(leftSide)) {
+           int x= excell.xCell(str);
+           int y= excell.yCell(str);
+           Cell cell =excell.get(x,y);
+            leftSideVal= cell.computeForm("3+5");
+
+        }
+        */
         else
             leftSideVal = computeForm (leftSide);
 

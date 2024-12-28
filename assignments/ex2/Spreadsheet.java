@@ -1,9 +1,11 @@
+package assignments.ex2;
+
 public class Spreadsheet {
 
-    Cell[][] excell;
+    Cell1[][] excell;
 
     public Spreadsheet(int x, int y) {
-        excell = new Cell[x][y];
+        excell = new Cell1[x][y];
 
 
     }
@@ -43,6 +45,10 @@ public class Spreadsheet {
         return a;
     }
 
-
-
+    public Cell1 get(int x, int y) {
+        return excell[x][y];
+    }
+    public void set(int x, int y, Cell1 cell1) {
+        excell[x][y] = cell1;
+    }
 }
