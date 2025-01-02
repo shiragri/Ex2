@@ -5,7 +5,7 @@ import java.io.IOException;
 
 public class Ex2Sheet implements Sheet {
     private Cell[][] table;
-    private double [][] values;
+    private Double [][] values;
     // Add your code here
 
     // ///////////////////
@@ -29,7 +29,20 @@ public class Ex2Sheet implements Sheet {
         // Add your code here
 
         Cell c = get(x,y);
-        if(c!=null) {ans = c.toString();}
+        if(c!=null) {
+            ans = c.toString();
+
+            int type=c.getType();
+            if (type==Ex2Utils.TEXT)
+                return ans;
+            else
+                return values[x][y].toString();
+
+            // else if (type==Ex2Utils.TEXT)
+            //    return ans;
+            // else return Double.toString(computeForm(ans));
+        }
+
 
         /////////////////////
         return ans;
@@ -42,12 +55,15 @@ public class Ex2Sheet implements Sheet {
 
     @Override
     public Cell get(String cords) {
-        Cell ans = null;
-        int x = xCell(cords);
-        int y = yCell(cords);
-        ans=get(x,y);
-
-        return ans;
+        CellEntry ce = new CellEntry(cords);
+        int x = ce.xCell(cords);
+        int y = ce.yCell(cords);
+        if (ce.isValid()) {
+            Cell c = get(x, y);
+            return c;
+        }
+        else
+            return null;
     }
 
     @Override
@@ -72,24 +88,25 @@ public class Ex2Sheet implements Sheet {
 
         // Add your code here
 
-        values = new double[width()][height()];
+        values = new Double[width()][height()];
 
         for (int x = 0; x < width(); x++) {
             for (int y = 0; y < height(); y++) {
-                String ans = null;
+
+               String ans = null;
                 if(get(x,y)!=null) {
                     ans = get(x,y).toString();}
-                // Add your code here
+
                 Cell c =get(x,y);
                 int type=c.getType();
-                if (type== Ex2Utils.FORM)
-                    return values[x][y]=computeForm(ans);
+                if (type== Ex2Utils.NUMBER)
+                    values[x][y]=Double.parseDouble(ans);
+                else if (type== Ex2Utils.FORM)
+                     values[x][y]=computeForm(ans);
 
-               // else if (type==Ex2Utils.TEXT)
-                //    return ans;
-               // else return Double.toString(computeForm(ans));
 
-                values[x][y] = ans;
+
+
 
             }
         }
@@ -130,38 +147,12 @@ public class Ex2Sheet implements Sheet {
 
     @Override
     public String eval(int x, int y) {
-
-
+        return "SSSSS";
         /////////////////////
-      //  return ans;
-        }
-
-    public int xCell(String x) {
-        String lower = x.toLowerCase();
-        try {
-            int a = Integer.parseInt(lower.substring(1));
-        } catch (NumberFormatException e) {
-            return -1;
-        }
-
-        char ch = lower.charAt(0);
-        if (ch >= 'a' && ch <= 'z') {
-            return ch - 97;
-        } else return -1;
-
-
+        //  return ans;
     }
 
-    public int yCell(String x) {
-        int a;
-        try {
-            a = Integer.parseInt(x.substring(1));
-        } catch (NumberFormatException e) {
-            return -1;
-        }
 
-        return a;
-    }
 
     public boolean isNumber(String str) {
 
