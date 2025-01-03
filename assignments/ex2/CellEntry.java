@@ -25,7 +25,7 @@ public class CellEntry  implements Index2D {
     @Override
     public int getY() {return y;}
 
-    public int xCell(String x) {
+    private int xCell(String x) {
         String lower = x.toLowerCase();
         try {
             int a = Integer.parseInt(lower.substring(1));
@@ -41,7 +41,7 @@ public class CellEntry  implements Index2D {
 
     }
 
-    public int yCell(String x) {
+    private int yCell(String x) {
         int a;
         try {
             a = Integer.parseInt(x.substring(1));
