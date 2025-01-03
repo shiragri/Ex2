@@ -35,7 +35,9 @@ public class Ex2Sheet implements Sheet {
             int type=c.getType();
             if (type==Ex2Utils.TEXT)
                 return ans;
-            else
+            else if (type==Ex2Utils.ERR_CYCLE_FORM) {
+                return Ex2Utils.ERR_CYCLE;
+            } else
                 return values[x][y].toString();
 
             // else if (type==Ex2Utils.TEXT)
@@ -120,6 +122,15 @@ public class Ex2Sheet implements Sheet {
                 }
             }
         }
+        //sign the cells that cyclyc
+        for (int i=0;i<width();i++) {
+            for (int j=0;j<height();j++) {
+                if (dd[i][j] == -1) {
+                    get(i,j).setType(Ex2Utils.ERR_CYCLE_FORM);
+                }
+            }
+        }
+
         // ///////////////////
     }
 
@@ -183,7 +194,7 @@ public class Ex2Sheet implements Sheet {
                String[] tokens = val.split("[-+*/=()]");
                for (String token : tokens) {
                    if (!token.isEmpty()) {
-                       if (token.charAt(0) > 'a' && token.charAt(0) < 'z') {
+                       if (token.charAt(0) >= 'a' && token.charAt(0) <= 'z') {
                            CellEntry ce = new CellEntry(token);
                            int x1 = ce.getX();
                            int y1 = ce.getY();
@@ -276,7 +287,7 @@ public class Ex2Sheet implements Sheet {
 
         double rightSideVal;
 
-        CellEntry rce = new CellEntry(leftSide);
+        CellEntry rce = new CellEntry(rightSide);
         if (isNumber(rightSide))
             rightSideVal = Double.parseDouble(rightSide);
         else if (rce.isValid())
