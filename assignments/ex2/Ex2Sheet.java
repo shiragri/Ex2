@@ -1,5 +1,8 @@
 package assignments.ex2;
-
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 // Add your documentation below:
 
@@ -87,11 +90,16 @@ public class Ex2Sheet implements Sheet {
     public void eval() {
         int[][] dd = depth();
 
+
         int maxDepth = 0;
 
-        //find the max depth value
+
         for (int i=0;i<width();i++) {
             for (int j=0;j<height();j++) {
+                //we recalculte the error cells
+                if (get(i,j).getType() == Ex2Utils.ERR_CYCLE_FORM || get(i,j).getType() == Ex2Utils.ERR_FORM_FORMAT)
+                    get(i,j).setType(Ex2Utils.FORM);
+                //find the max depth value
                 if (dd[i][j] > maxDepth) {
                     maxDepth = dd[i][j];
                 }
@@ -142,7 +150,7 @@ public class Ex2Sheet implements Sheet {
 
     @Override
     public boolean isIn(int xx, int yy) {
-        boolean ans = xx>=0 && yy>=0;
+        boolean ans = xx>=0 && yy>=0 && xx<width() && yy<height();
         // Add your code here
 
         /////////////////////
@@ -190,10 +198,10 @@ public class Ex2Sheet implements Sheet {
         Cell c = get(x,y);
         if (c !=null){
             if (c.getType()==Ex2Utils.TEXT )
-                //if the cell is empty return false
+             /*   //if the cell is empty return false
                 if (c.toString().isEmpty())
                     return false;
-                else
+                else*/
                     return true;
             else if (c.getType()==Ex2Utils.NUMBER) {
                 return true;
@@ -231,14 +239,61 @@ public class Ex2Sheet implements Sheet {
 
     @Override
     public void load(String fileName) throws IOException {
-        // Add your code here
 
+        // Add your code here
+        // first we clean the current table
+        for (int x = 0; x < width(); x++) {
+            for (int y = 0; y < height(); y++) {
+                get(x,y).setData(Ex2Utils.EMPTY_CELL);
+            }
+        }
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            boolean isFirstLine = true;
+
+            while ((line = br.readLine()) != null) {
+                if (isFirstLine) {
+                    isFirstLine = false; // skip the first line
+                    continue;
+                }
+
+                String[] parts = line.split(",");
+                if (parts.length == 3) {
+                    int x = Integer.parseInt(parts[0].trim());
+                    int y = Integer.parseInt(parts[1].trim());
+                    String value = parts[2].trim();
+                    if (isIn(x,y) ){
+                        get(x, y).setData(value);
+                    }
+                }
+            }
+        } catch (IOException | NumberFormatException e) {
+            throw e;
+        }
+        eval();
         /////////////////////
     }
 
     @Override
     public void save(String fileName) throws IOException {
         // Add your code here
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName))) {
+
+            bw.write("I2CS ArielU: SpreadSheet (Ex2) assignment ");
+            bw.newLine();
+
+            for (int x = 0; x < width(); x++) {
+                for (int y = 0; y < height(); y++) {
+                    if (!get(x, y).getData().isEmpty()) {
+                        bw.write(x + "," + y + "," + get(x, y).getData());
+                        bw.newLine();
+                    }
+                }
+            }
+        }
+        catch (IOException e) {
+             throw e;
+        }
 
         /////////////////////
     }

@@ -4,12 +4,10 @@ package assignments.ex2;
 public class SCell implements Cell {
     private String line;
     private int type;
-    private int errCode;
     // Add your code here
 
     public SCell(String s) {
         // Add your code here
-        errCode = 0;
         setData(s);
     }
 
