@@ -37,12 +37,11 @@ public class Ex2Sheet implements Sheet {
                 return ans;
             else if (type==Ex2Utils.ERR_CYCLE_FORM) {
                 return Ex2Utils.ERR_CYCLE;
-            } else
-                return values[x][y].toString();
+            } else if (type == Ex2Utils.ERR_FORM_FORMAT) {
+                return Ex2Utils.ERR_FORM;
+            }
+            return values[x][y].toString();
 
-            // else if (type==Ex2Utils.TEXT)
-            //    return ans;
-            // else return Double.toString(computeForm(ans));
         }
 
 
@@ -116,7 +115,12 @@ public class Ex2Sheet implements Sheet {
                         if (type == Ex2Utils.NUMBER)
                             values[x][y] = Double.parseDouble(ans);
                         else if (type == Ex2Utils.FORM)
-                            values[x][y] = computeForm(ans);
+                            try {
+                                values[x][y] = computeForm(ans);
+                            }
+                            catch (Exception e) {
+                                c.setType(Ex2Utils.ERR_FORM_FORMAT);
+                            }
 
                     }
                 }
@@ -126,7 +130,9 @@ public class Ex2Sheet implements Sheet {
         for (int i=0;i<width();i++) {
             for (int j=0;j<height();j++) {
                 if (dd[i][j] == -1) {
-                    get(i,j).setType(Ex2Utils.ERR_CYCLE_FORM);
+                    //if the cell is -1 and it is not empty then there is a cyclic problem
+                    if (!get(i,j).toString().isEmpty())
+                        get(i,j).setType(Ex2Utils.ERR_CYCLE_FORM);
                 }
             }
         }
@@ -183,8 +189,12 @@ public class Ex2Sheet implements Sheet {
     private boolean canBeCompudedNow(int x, int y, int[][] ans) {
         Cell c = get(x,y);
         if (c !=null){
-            if (c.getType()==Ex2Utils.TEXT)
-                return true;
+            if (c.getType()==Ex2Utils.TEXT )
+                //if the cell is empty return false
+                if (c.toString().isEmpty())
+                    return false;
+                else
+                    return true;
             else if (c.getType()==Ex2Utils.NUMBER) {
                 return true;
             }
@@ -269,7 +279,7 @@ public class Ex2Sheet implements Sheet {
             if (isNumber(form1))
                 return Double.parseDouble(form1);
             else if (ce.isValid())
-                return values[ce.getX()][ce.getY()];
+                return values[ce.getX()][ce.getY()].doubleValue();
         }
 
         String leftSide = form1.substring(0, opIndex);
