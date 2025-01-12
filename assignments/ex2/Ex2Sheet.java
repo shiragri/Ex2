@@ -253,7 +253,6 @@ public class Ex2Sheet implements Sheet {
             depth+=1;
         }// while
 
-
         // ///////////////////
         return ans;
     }
@@ -401,7 +400,7 @@ public class Ex2Sheet implements Sheet {
     public boolean isNumber(String str) {
 
         try {
-            int a =Integer.parseInt(str);
+            double a =Double.parseDouble(str);
             return true;
         }
         catch (NumberFormatException e){

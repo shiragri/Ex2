@@ -108,7 +108,7 @@ public class SCell implements Cell {
     public boolean isNumber(String str) {
 
         try {
-            int a =Integer.parseInt(str);
+            double a =Double.parseDouble(str);
             return true;
         }
         catch (NumberFormatException e){
@@ -134,6 +134,7 @@ public class SCell implements Cell {
     public boolean isForm(String str){
        if (str != null && str.length() > 0) {
            return str.charAt(0) == '=';
+
        }
        else return false;
     }
